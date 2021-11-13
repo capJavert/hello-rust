@@ -1,0 +1,3 @@
+# hello-rust
+
+Rust adventure begins...
