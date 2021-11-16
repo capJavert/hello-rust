@@ -44,6 +44,14 @@ fn guessing_game() {
     }
 }
 
+fn fibonacci(num: u64) -> u64 {
+    if num <= 1 {
+        1
+    } else {
+        fibonacci(num - 1) + fibonacci(num - 2)
+    }
+}
+
 fn main() {
     println!("Select program");
     let mut selection = String::new();
@@ -68,6 +76,24 @@ fn main() {
                 match value.trim().parse() {
                     Ok(num) => {
                         println!("Celsius {}", fahrenheit_to_celsius(num))
+                    },
+                    Err(_) => {
+                        println!("Not a number")
+                    },
+                };
+        }
+        "Fibonacci" => {
+            let mut value = String::new();
+    
+            println!("How many steps?");
+
+            io::stdin()
+                .read_line(&mut value)
+                .expect("Failed to read line");
+        
+                match value.trim().parse() {
+                    Ok(num) => {
+                        println!("{}", fibonacci(num))
                     },
                     Err(_) => {
                         println!("Not a number")
