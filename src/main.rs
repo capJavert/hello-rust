@@ -1,6 +1,7 @@
 use std::io;
 use rand::Rng;
 use std::cmp::Ordering;
+use std::collections::HashMap;
 
 fn fahrenheit_to_celsius(value: f64) -> f64 {
     const RATIO: f64 = 5.0 / 9.0;
@@ -44,11 +45,16 @@ fn guessing_game() {
     }
 }
 
-fn fibonacci(num: u64) -> u64 {
-    if num <= 1 {
+fn fibonacci(num: u128, memo: &mut HashMap<u128, u128>) -> u128 {
+    if memo.contains_key(&num) {
+        memo[&num]
+    } else if num <= 1 {
         1
     } else {
-        fibonacci(num - 1) + fibonacci(num - 2)
+        let result = fibonacci(num - 1, memo) + fibonacci(num - 2, memo);
+        memo.insert(num, result);
+
+        result
     }
 }
 
@@ -97,7 +103,7 @@ fn main() {
         
                 match value.trim().parse() {
                     Ok(num) => {
-                        println!("{}", fibonacci(num))
+                        println!("{}", fibonacci(num, &mut HashMap::new()))
                     },
                     Err(_) => {
                         println!("Not a number")
