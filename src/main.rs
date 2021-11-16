@@ -2,7 +2,15 @@ use std::io;
 use rand::Rng;
 use std::cmp::Ordering;
 
-fn main() {
+fn fahrenheit_to_celsius(value: f64) -> f64 {
+    const RATIO: f64 = 5.0 / 9.0;
+    let celsius = value - 32.0;
+    let celsius = celsius * RATIO;
+
+    return celsius
+}
+
+fn guessing_game() {
     println!("Guess the number!");
 
     let secret_number = rand::thread_rng().gen_range(1..101);
@@ -32,6 +40,42 @@ fn main() {
                 println!("You win!");
                 break;
             }
+        }
+    }
+}
+
+fn main() {
+    println!("Select program");
+    let mut selection = String::new();
+    
+    io::stdin()
+        .read_line(&mut selection)
+        .expect("Failed to read line");
+
+    match selection.trim() {
+        "GuessingGame" => {
+            guessing_game();
+        }
+        "FahrenheitToCelsius" => {
+            let mut value = String::new();
+    
+            println!("Input celsius value");
+
+            io::stdin()
+                .read_line(&mut value)
+                .expect("Failed to read line");
+        
+                match value.trim().parse() {
+                    Ok(num) => {
+                        println!("Celsius {}", fahrenheit_to_celsius(num))
+                    },
+                    Err(_) => {
+                        println!("Not a number")
+                    },
+                };
+        }
+        _ => {
+            println!("404");
         }
     }
 }
