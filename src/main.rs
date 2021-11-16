@@ -67,9 +67,7 @@ fn main() {
         .expect("Failed to read line");
 
     match selection.trim() {
-        "GuessingGame" => {
-            guessing_game();
-        }
+        "GuessingGame" => guessing_game(),
         "FahrenheitToCelsius" => {
             let mut value = String::new();
     
