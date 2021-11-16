@@ -52,6 +52,12 @@ fn fibonacci(num: u64) -> u64 {
     }
 }
 
+fn twelve_days_of_xmas() {
+    for day in 0..12 {
+        println!("On the {}. day of Christmas, my true love sent to me...", day + 1)
+    }
+}
+
 fn main() {
     println!("Select program");
     let mut selection = String::new();
@@ -100,6 +106,7 @@ fn main() {
                     },
                 };
         }
+        "12DaysOfXmas" => twelve_days_of_xmas(),
         _ => {
             println!("404");
         }
