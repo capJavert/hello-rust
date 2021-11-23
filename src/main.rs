@@ -3,9 +3,68 @@ use rand::Rng;
 use std::cmp::Ordering;
 use std::collections::HashMap;
 
-struct Program;
+struct Utils;
+
+impl Utils {
+     // i know there is a list.sort, but for practice sake
+    fn sort(list: &mut Vec<i64>) -> Vec<i64> {
+        for index in 0..list.len() {
+            for index2 in 0..list.len() - 1 - index {
+                if list[index2] > list[index2 + 1] {
+                    let temp = list[index2];
+                    list[index2] = list[index2 + 1];
+                    list[index2 + 1] = temp;
+                }
+            }
+        }   
+
+        list.to_vec()
+    }
+}
+
+struct Program {
+    math: ProgramMath
+}
+
+struct ProgramMath;
+
+impl ProgramMath {
+    fn mean(&self, list: &Vec<i64>) -> f64 {
+        let mut total = 0;
+
+        for item in list {
+            total += item
+        }
+
+        total as f64 / 2.0
+    }
+
+    fn median(&self, list: &Vec<i64>) -> f64 {
+        let sorted = Utils::sort(&mut list.to_vec());
+
+        match sorted.len() {
+            0 => 0.0,
+            1 => sorted[0] as f64,
+            _ => {
+                let half = (((sorted.len() / 2) as f64).floor()) as usize;
+
+                if sorted.len() % 2 != 0 {
+                    sorted[half] as f64
+                } else {
+                    (sorted[half - 1] + sorted[half]) as f64 / 2.0
+                }
+            }
+        }
+    }
+}
 
 impl Program {
+    fn init() -> Program {
+        Program {
+            math: ProgramMath
+        }
+    }
+
     fn fahrenheit_to_celsius(&self, value: f64) -> f64 {
         const RATIO: f64 = 5.0 / 9.0;
         let celsius = value - 32.0;
@@ -89,7 +148,7 @@ impl Program {
 }
 
 fn main() {
-    let program = Program {};
+    let program = Program::init();
 
     println!("Select program");
     let mut selection = String::new();
@@ -138,6 +197,30 @@ fn main() {
         }
         "12DaysOfXmas" => program.twelve_days_of_xmas(),
         "Rectangle" => program.rectangle(),
+        "Mean" => {
+            let mut value = String::new();
+    
+            println!("Input Comma-separated list");
+
+            io::stdin()
+                .read_line(&mut value)
+                .expect("Failed to read line");
+        
+            let list: Vec<i64> = value.trim().split(",").map(|s| s.parse().expect("Parse failed")).collect();
+            println!("{}", program.math.mean(&list));
+        },
+        "Median" => {
+            let mut value = String::new();
+    
+            println!("Input Comma-separated list");
+
+            io::stdin()
+                .read_line(&mut value)
+                .expect("Failed to read line");
+        
+            let list: Vec<i64> = value.trim().split(",").map(|s| s.parse().expect("Parse failed")).collect();
+            println!("{}", program.math.median(&list));
+        },
         _ => {
             println!("404");
         }
