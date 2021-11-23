@@ -66,10 +66,30 @@ impl Program {
             println!("On the {}. day of Christmas, my true love sent to me...", day + 1)
         }
     }
+
+    fn rectangle(&self) {
+        struct Rectangle {
+            width: u32,
+            height: u32,
+        }
+
+        impl Rectangle {
+            fn area(&self) -> u32 {
+                self.width * self.height
+            }
+        }
+
+        let rectangle = Rectangle {
+            width: 69,
+            height: 69
+        };
+
+        println!("Area of {}x{} rectangle is {}", rectangle.width, rectangle.height, rectangle.area())
+    }
 }
 
 fn main() {
-    let program: Program = Program {};
+    let program = Program {};
 
     println!("Select program");
     let mut selection = String::new();
@@ -117,6 +137,7 @@ fn main() {
                 };
         }
         "12DaysOfXmas" => program.twelve_days_of_xmas(),
+        "Rectangle" => program.rectangle(),
         _ => {
             println!("404");
         }
