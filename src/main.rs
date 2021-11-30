@@ -145,6 +145,38 @@ impl Program {
 
         println!("Area of {}x{} rectangle is {}", rectangle.width, rectangle.height, rectangle.area())
     }
+
+    fn pig_latin(&self, text: String) -> String {
+        let vowels = ["a", "e", "i", "o", "u"].map(|s| String::from(s));
+
+        let words: Vec<&str> = text.trim().split(" ").collect();
+        let mut pig_words: Vec<String> = Vec::new();
+
+        for word in words.iter() {
+            let mut pig_word = String::from("");
+            let mut extension = String::from("");
+
+            for (index, letter) in word.to_ascii_lowercase().chars().enumerate() {
+                if index == 0 {
+                    if vowels.contains(&letter.to_string()) {
+                        extension.push_str("hey");
+                    } else {
+                        extension.push(letter);
+                        extension.push_str("ay");
+
+                        continue
+                    }
+                }
+
+                pig_word.push(letter);
+            }
+
+            pig_word.push_str(&extension);
+            pig_words.push(pig_word);
+        }
+
+        pig_words.join(" ")
+    }
 }
 
 fn main() {
@@ -220,6 +252,17 @@ fn main() {
         
             let list: Vec<i64> = value.trim().split(",").map(|s| s.parse().expect("Parse failed")).collect();
             println!("{}", program.math.median(&list));
+        },
+        "PigLatin" => {
+            let mut value = String::new();
+    
+            println!("Input some text");
+
+            io::stdin()
+                .read_line(&mut value)
+                .expect("Failed to read line");
+        
+            println!("{}", program.pig_latin(String::from(value.trim())));
         },
         _ => {
             println!("404");
